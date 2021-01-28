@@ -23,9 +23,13 @@ namespace TBBTDiscordBot.Commands
         [Summary("Replies with pong to see if the bot is online.")]
         public async Task PingPong() => await Context.Channel.SendMessageAsync("Pong!");
 
-        // Reddit
-        [Command("bbtr")]
-        [Alias("big bang reddit", "br", "bigbangtheoryreddit", "big bang theory reddit")]
-        public async Task DisplayBBTR() => await TheBigBangTheoryReddit.PrintRandomThought(Context.Channel);
+       [Command("members")]
+       public async Task CountMembers()
+       {
+            await Context.Channel.SendMessageAsync($"{Context.Guild.MemberCount.ToString()} members");
+       }
+
+        [Command("daily")]
+        public async Task GetDailyComics() => await ComicBooksHandler.Daily(Context, Context.User);
     }
 }

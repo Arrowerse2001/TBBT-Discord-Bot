@@ -34,7 +34,7 @@ namespace TBBTDiscordBot.Handlers
 
             _client.MessageReceived += HandleCommandAsync;
             _client.ReactionAdded += HandleReactionAsync;
-
+            _client.UserJoined += HandleUserJoining;
 
             _service.Log += Log;
 
@@ -55,7 +55,21 @@ namespace TBBTDiscordBot.Handlers
 
             await context.Channel.SendMessageAsync("Here's a list of commands and their description: ", false, embedBuilder.Build());
         }
-        
+
+        private async Task HandleUserJoining(SocketGuildUser arg)
+        {
+            if (arg.IsBot)
+            {
+                await (arg as IGuildUser).AddRoleAsync(arg.Guild.Roles.FirstOrDefault(x => x.Name == "Bot"));
+                await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+                return;
+            }
+            string desc = $"{arg} has joined the server.";
+
+            await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+        }
+
+
         private Task Log(LogMessage arg)
         {
             Console.WriteLine(arg);
