@@ -31,5 +31,8 @@ namespace TBBTDiscordBot.Commands
 
         [Command("daily")]
         public async Task GetDailyComics() => await ComicBooksHandler.Daily(Context, Context.User);
+
+        [Command("store")]
+        public async Task ComicStore() => await Context.Channel.SendMessageAsync("This is still in development.");
     }
 }

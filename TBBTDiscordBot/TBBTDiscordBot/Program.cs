@@ -32,8 +32,8 @@ namespace TBBTDiscordBot
 
 
             await _client.SetGameAsync(ArrayHandler.Activites[Utilities.GetRandomNumber(0, ArrayHandler.Activites.Length)], null, ActivityType.Playing);
-          
 
+            _client.ReactionAdded += OnReactionAdded;
 
             var _handler = new Handlers.EventHandler(services);
             await _handler.InitializeAsync(_client);
@@ -45,5 +45,18 @@ namespace TBBTDiscordBot
             Console.WriteLine(msg.Message);
             return Task.CompletedTask;
         }
+
+        private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel Channel, SocketReaction Reaction)
+        {
+
+            if (((SocketUser)Reaction.User).IsBot) return;
+
+
+            if (MinigameHandler.RPS.MessageID == Reaction.MessageId && MinigameHandler.RPS.Player.Id == Reaction.UserId)
+                await MinigameHandler.RPS.ViewPlay(Reaction.Emote.ToString());
+          
+        }
+
+
     }
 }

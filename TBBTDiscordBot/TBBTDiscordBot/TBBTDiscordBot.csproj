@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Colours.cs" />
     <Compile Include="Commands\Currency.cs" />
+    <Compile Include="Commands\MinigameCommands.cs" />
     <Compile Include="Commands\Misc.cs" />
     <Compile Include="Commands\ServerRules.cs" />
     <Compile Include="Config.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Handlers\DataHandling\UserAccount.cs" />
     <Compile Include="Handlers\DataHandling\UserAccounts.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
+    <Compile Include="Handlers\MinigameHandler.cs" />
+    <Compile Include="Minigames\RockPaperScissors.cs" />
     <Compile Include="Preconditions\RequireRole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,8 +115,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Minigames\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
