@@ -24,6 +24,7 @@ namespace TBBTDiscordBot.Handlers
 
         public EventHandler(IServiceProvider services) => serviceProdiver = services;
         public static IDictionary<string, DateTimeOffset> timeList = new Dictionary<string, DateTimeOffset>();
+        private SocketUserMessage msg;
 
         public async Task InitializeAsync(DiscordSocketClient client)
         {
@@ -161,13 +162,27 @@ namespace TBBTDiscordBot.Handlers
 
         }
 
-        private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> cachedMessage,
-                        ISocketMessageChannel originChannel, SocketReaction reaction)
+        private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> cachedMessage, ISocketMessageChannel originChannel, SocketReaction reaction)
         {
             var message = await cachedMessage.GetOrDownloadAsync();
+            var context = new SocketCommandContext(_client, msg); 
+            IEmote e = reaction.Emote;
 
-           
-          
+            if (message.Channel.Id == 784578667333419008 && e.Name == "NobelPrize") //Starboard
+            {
+                
+                var client = context.Client;
+                ulong channelID = 806896328843853834;
+                var c = client.GetChannel(channelID) as SocketTextChannel;
+
+                /* EmbedBuilder builder = new EmbedBuilder();
+                 builder.WithTitle("Nobel Worthy Message from: " + context.User.Mention);
+                 builder.WithDescription(msg.Content.ToString());
+                 builder.WithColor(Colours.Blue);
+                 builder.WithFooter("");
+                 await c.SendMessageAsync("", false, builder.Build());*/
+                await c.SendMessageAsync("test");
+            }
         }
 
     }
