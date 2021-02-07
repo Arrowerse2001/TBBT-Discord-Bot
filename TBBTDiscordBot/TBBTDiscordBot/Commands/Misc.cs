@@ -13,12 +13,8 @@ namespace TBBTDiscordBot.Commands
     public class Misc : InteractiveBase
     {
 
-        [Command("help")]
-        [Summary("Displays Help Menu")]
-        public async Task HelpMenu()
-        {
-            
-        }
+        [Command("icon")]
+        public async Task UploadIcon() => await Context.Channel.SendMessageAsync(Context.Guild.IconUrl);
 
         [Command("ping")]
         [Summary("Replies with pong to see if the bot is online.")]

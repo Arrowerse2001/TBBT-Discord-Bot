@@ -32,6 +32,7 @@ namespace TBBTDiscordBot.Handlers
 
             _client.MessageReceived += HandleCommandAsync;
             _client.UserJoined += HandleUserJoining;
+            _client.ReactionAdded += HandleReactionAsync;
             _service.Log += Log;
 
         }
@@ -79,7 +80,7 @@ namespace TBBTDiscordBot.Handlers
 
             var context = new SocketCommandContext(_client, msg);
             int argPos = 0;
-            if (msg.HasStringPrefix(".", ref argPos))
+            if (msg.HasStringPrefix("/", ref argPos))
                 await _service.ExecuteAsync(context, argPos, serviceProdiver, MultiMatchHandling.Exception);
 
             string m = msg.Content.ToLower();
@@ -161,10 +162,21 @@ namespace TBBTDiscordBot.Handlers
                     await context.Message.AddReactionAsync(BazingaEmote);
                 }
             }
+        }
+        private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> cachedMessage,
+                      ISocketMessageChannel originChannel, SocketReaction reaction)
+        {
+            var message = await cachedMessage.GetOrDownloadAsync();
 
+            IEmote e = reaction.Emote;
 
+            if (message.Channel.Id == 784578667333419008 && e.Name == "NobelPrize")
+            {
+                await message.Channel.SendMessageAsync($"Reaction added");
+                await originChannel.SendMessageAsync($"Reaction Added.");
+            }
         }
 
-       
+
     }
 }

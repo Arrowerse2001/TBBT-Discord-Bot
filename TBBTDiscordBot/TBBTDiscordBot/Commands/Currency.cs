@@ -38,6 +38,7 @@ namespace TBBTDiscordBot.Commands
         public async Task GambleComics(int amount)
         {
             var account = UserAccounts.GetAccount(Context.User);
+            
             if (amount > account.ComicBooks)
             {
                 await Utilities.PrintError(Context.Channel, "Did you take a marijuana!? You do not have that many comics.");
