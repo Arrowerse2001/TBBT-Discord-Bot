@@ -5,18 +5,14 @@ using Discord.Commands;
 using System.Reflection;
 using Discord.WebSocket;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Timers;
-using System.Runtime.Remoting.Contexts;
 using System.Text.RegularExpressions;
-using Discord.Rest;
 using System.Collections.Generic;
-
-
+using Discord.Addons.Interactive;
 
 namespace TBBTDiscordBot.Handlers
 {
-    class EventHandler
+    [RequireContext(ContextType.Guild)]
+    class EventHandler : InteractiveBase
     {
         DiscordSocketClient _client;
         CommandService _service;
@@ -25,6 +21,7 @@ namespace TBBTDiscordBot.Handlers
         public EventHandler(IServiceProvider services) => serviceProdiver = services;
         public static IDictionary<string, DateTimeOffset> timeList = new Dictionary<string, DateTimeOffset>();
         private SocketUserMessage msg;
+        public SocketCommandContext cont;
 
         public async Task InitializeAsync(DiscordSocketClient client)
         {
@@ -34,9 +31,7 @@ namespace TBBTDiscordBot.Handlers
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProdiver);
 
             _client.MessageReceived += HandleCommandAsync;
-            _client.ReactionAdded += HandleReactionAsync;
             _client.UserJoined += HandleUserJoining;
-
             _service.Log += Log;
 
         }
@@ -84,33 +79,33 @@ namespace TBBTDiscordBot.Handlers
 
             var context = new SocketCommandContext(_client, msg);
             int argPos = 0;
-            if (msg.HasStringPrefix("/", ref argPos))
+            if (msg.HasStringPrefix(".", ref argPos))
                 await _service.ExecuteAsync(context, argPos, serviceProdiver, MultiMatchHandling.Exception);
 
             string m = msg.Content.ToLower();
 
-            if (m.Contains("retard") || m.Contains("fag"))
+            if (m.Contains("retard"))
                 await msg.DeleteAsync();
-          
-          
+
+
 
             // mute someone if they say the N word.
-            if (m.Contains("nigger") || m.Contains("nigga"))
+            if (m.Contains("nigger") || m.Contains("nigga") || m.Contains("faggot"))
             {
                 await msg.DeleteAsync();
                 var role = ((ITextChannel)context.Channel).Guild.GetRole(792423525503336478);
                 var user = context.User;
 
                 await (user as IGuildUser).AddRoleAsync(role); //add the Shunned role
-               
-                
+
+
                 await context.Channel.SendMessageAsync($"{user.Mention} you have been muted. You will be unmuted when a mod comes online.");
                 var client = context.Client;
                 ulong channelID = 784578613269626960;
                 var c = client.GetChannel(channelID) as SocketTextChannel;
                 await c.SendMessageAsync($"{user.Mention} has been muted. They will need to be manually unmuted.");
             }
-          
+
 
             if (Regex.IsMatch(m, "[Hh]ow.*suggest.*", RegexOptions.IgnoreCase))
             {
@@ -133,20 +128,27 @@ namespace TBBTDiscordBot.Handlers
 
             if (Regex.IsMatch(m, "[Bb]azinga*", RegexOptions.IgnoreCase))
             {
-                DateTimeOffset dt;
-                if (timeList.ContainsKey("Bazinga"))
+                if (m.StartsWith(":"))
                 {
-                    dt = timeList["Bazinga"];
-                    if (DateTimeOffset.Now >= dt.AddSeconds(10))
+
+                }
+                else
+                {
+                    DateTimeOffset dt;
+                    if (timeList.ContainsKey("Bazinga"))
+                    {
+                        dt = timeList["Bazinga"];
+                        if (DateTimeOffset.Now >= dt.AddSeconds(20))
+                        {
+                            timeList["Bazinga"] = DateTimeOffset.Now;
+                            await s.Channel.SendMessageAsync(ArrayHandler.Bazinga[Utilities.GetRandomNumber(0, ArrayHandler.Bazinga.Length)]);
+                        }
+                    }
+                    else
                     {
                         timeList["Bazinga"] = DateTimeOffset.Now;
                         await s.Channel.SendMessageAsync(ArrayHandler.Bazinga[Utilities.GetRandomNumber(0, ArrayHandler.Bazinga.Length)]);
                     }
-                }
-                else
-                {
-                    timeList["Bazinga"] = DateTimeOffset.Now;
-                    await s.Channel.SendMessageAsync(ArrayHandler.Bazinga[Utilities.GetRandomNumber(0, ArrayHandler.Bazinga.Length)]);
                 }
             }
 
@@ -160,30 +162,9 @@ namespace TBBTDiscordBot.Handlers
                 }
             }
 
+
         }
 
-        private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> cachedMessage, ISocketMessageChannel originChannel, SocketReaction reaction)
-        {
-            var message = await cachedMessage.GetOrDownloadAsync();
-            var context = new SocketCommandContext(_client, msg); 
-            IEmote e = reaction.Emote;
-
-            if (message.Channel.Id == 784578667333419008 && e.Name == "NobelPrize") //Starboard
-            {
-                
-                var client = context.Client;
-                ulong channelID = 806896328843853834;
-                var c = client.GetChannel(channelID) as SocketTextChannel;
-
-                /* EmbedBuilder builder = new EmbedBuilder();
-                 builder.WithTitle("Nobel Worthy Message from: " + context.User.Mention);
-                 builder.WithDescription(msg.Content.ToString());
-                 builder.WithColor(Colours.Blue);
-                 builder.WithFooter("");
-                 await c.SendMessageAsync("", false, builder.Build());*/
-                await c.SendMessageAsync("test");
-            }
-        }
-
+       
     }
 }

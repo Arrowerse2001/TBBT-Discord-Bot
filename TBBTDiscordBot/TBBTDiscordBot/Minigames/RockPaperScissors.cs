@@ -15,9 +15,9 @@ namespace TBBTDiscordBot.Minigames
         public ulong MessageID;
         private bool isPlaying;
         public SocketGuildUser Player;
-        private readonly List<string> Plays = new List<string>(new[] { "Rock", "Paper", "Scissors" });
+        private readonly List<string> Plays = new List<string>(new[] { "Rock", "Paper", "Scissors", "Lizard", "Spock" });
 
-        private Embed Embed(string description, string footer) => Utilities.Embed("Rock-Paper-Scissors", description, Colours.Blue, footer, "https://i.imgur.com/VXdDjho.png");
+        private Embed Embed(string description, string footer) => Utilities.Embed("Rock-Paper-Scissors-Lizard-Spock", description, Colours.Blue, footer, "https://cdn.discordapp.com/attachments/784578667333419008/807795384759222322/LIZARDSPOCK.png");
 
         public async Task StartRPS(SocketCommandContext context)
         {
@@ -28,6 +28,10 @@ namespace TBBTDiscordBot.Minigames
             await gameMessage.AddReactionAsync(new Emoji("✂"));
             await Task.Delay(1000);
             await gameMessage.AddReactionAsync(new Emoji("🌑"));
+            await Task.Delay(1000);
+            await gameMessage.AddReactionAsync(new Emoji("🦎"));
+            await Task.Delay(1000);
+            await gameMessage.AddReactionAsync(new Emoji("🖖"));
             isPlaying = true;
             MessageID = gameMessage.Id;
             Player = (SocketGuildUser)context.User;
@@ -44,12 +48,16 @@ namespace TBBTDiscordBot.Minigames
                 playOne = "Scissors";
             else if (emote == "🌑")
                 playOne = "Rock";
+            else if (emote == "🦎")
+                playOne = "Lizard";
+            else if (emote == "🖖")
+                playOne = "ZSpock";
 
-            string playTwo = Plays.ElementAt(Utilities.GetRandomNumber(0, 3));
+            string playTwo = Plays.ElementAt(Utilities.GetRandomNumber(0, 4));
             string result = GetWinner(playOne[0], playTwo[0]);
 
             // Update the game message to show the winner and remove the reactions
-            await gameMessage.ModifyAsync(m => { m.Embed = Embed($"{Player.Mention} chose {playOne}!\n\nI chose {playTwo}.\n\n{result}", ""); });
+            await gameMessage.ModifyAsync(m => { m.Embed = Embed($"{Player.Mention} chose {playOne.Replace("Z", "")}\n\nI chose {playTwo}.\n\n{result}", ""); });
             await gameMessage.RemoveAllReactionsAsync();
 
             if (result.Contains("lose"))
@@ -66,7 +74,14 @@ namespace TBBTDiscordBot.Minigames
             if (p1 == p2) return "It's a draw!";
             if ((p1 == 'S' && p2 == 'P') ||
                 (p1 == 'P' && p2 == 'R') ||
-                (p1 == 'R' && p2 == 'S'))
+                (p1 == 'R' && p2 == 'S') ||
+                (p1 == 'R' && p2 == 'L') ||
+                (p1 == 'L' && p2 == 'Z') ||
+                (p1 == 'Z' && p2 == 'S') ||
+                (p1 == 'S' && p2 == 'L') ||
+                (p1 == 'L' && p2 == 'P') ||
+                (p1 == 'P' && p2 == 'Z') ||
+                (p1 == 'Z' && p2 == 'R'))
                 return $"{Player.Mention} won and got 3 Comic Books!";
             return "I won! You lose 3 Comic Books.";
         }

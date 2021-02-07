@@ -49,6 +49,8 @@ namespace TBBTDiscordBot
         // Print an error
         public static async Task PrintError(this ISocketMessageChannel channel, string message) => await channel.PrintEmbed("Error", message, Colours.Red).ConfigureAwait(false);
 
+        public static async Task PrintErrorGamble(this ISocketMessageChannel channel, string message) => await channel.PrintEmbed("Bazinga Punk!", message, Colours.Red).ConfigureAwait(false);
+
         // Get a dominant color from an image (url)
         public static Discord.Color DomColorFromURL(string url)
         {

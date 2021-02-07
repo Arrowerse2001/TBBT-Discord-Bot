@@ -5,6 +5,7 @@ using Discord;
 using System.Collections.Generic;
 using System.Linq;
 using TBBTDiscordBot.Handlers;
+using Discord.WebSocket;
 
 namespace TBBTDiscordBot.Commands
 {
@@ -34,5 +35,17 @@ namespace TBBTDiscordBot.Commands
 
         [Command("store")]
         public async Task ComicStore() => await Context.Channel.SendMessageAsync("This is still in development.");
+
+        [Command("speak")]
+        public async Task SaySomething([Remainder]string msg)
+        {
+            await Context.Message.DeleteAsync();
+            var ch = Context.Channel.Id;
+            var client = Context.Client;
+            ulong channelID = 784578754785312828; // break room
+            var c = client.GetChannel(channelID) as SocketTextChannel;
+            await c.SendMessageAsync($"{msg}");
+            await Context.Channel.SendMessageAsync("Posted!");
+        }
     }
 }
