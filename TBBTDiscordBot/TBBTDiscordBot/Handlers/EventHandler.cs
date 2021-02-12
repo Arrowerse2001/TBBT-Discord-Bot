@@ -61,7 +61,7 @@ namespace TBBTDiscordBot.Handlers
                 await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
                 return;
             }
-            string desc = $"{arg} has joined the server.";
+            string desc = $"{ArrayHandler.WelcomeMsg[Utilities.GetRandomNumber(0, ArrayHandler.WelcomeMsg.Length)].ToString()}";
 
             await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
         }
@@ -80,7 +80,7 @@ namespace TBBTDiscordBot.Handlers
 
             var context = new SocketCommandContext(_client, msg);
             int argPos = 0;
-            if (msg.HasStringPrefix("/", ref argPos))
+            if (msg.HasStringPrefix(".", ref argPos))
                 await _service.ExecuteAsync(context, argPos, serviceProdiver, MultiMatchHandling.Exception);
 
             string m = msg.Content.ToLower();

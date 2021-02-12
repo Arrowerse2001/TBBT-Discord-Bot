@@ -60,6 +60,7 @@ namespace TBBTDiscordBot.Handlers
 
         // Give or take ComicBooks from a user
         public static void AdjustComicBooks(SocketUser user, int amount) => AdjustComicBooks((SocketGuildUser)user, amount);
+        public static void AdjustGwins(SocketUser user, int amount) => AdjustGwins((SocketGuildUser)user, amount);
 
         public static void AdjustComicBooks(SocketGuildUser user, int amount)
         {
@@ -70,13 +71,59 @@ namespace TBBTDiscordBot.Handlers
             UserAccounts.SaveAccounts();
         }
 
+        public static void AdjustComicsWonFromG(SocketGuildUser user, int amount)
+        {
+            var account = UserAccounts.GetAccount(user);
+            account.ComicsWonFromG += amount;
+            if (account.ComicsWonFromG < 0)
+                account.ComicsWonFromG = 0;
+            UserAccounts.SaveAccounts();
+        }
+
+        public static void AdjustComicsLostFromG(SocketGuildUser user, int amount)
+        {
+            var account = UserAccounts.GetAccount(user);
+            account.ComicsLostFromG += amount;
+            if (account.ComicsLostFromG < 0)
+                account.ComicsLostFromG = 0;
+            UserAccounts.SaveAccounts();
+        }
+
+        public static void AdjustGwins(SocketGuildUser user, int amount)
+        {
+            var account = UserAccounts.GetAccount(user);
+            account.Gwins += amount;
+            if (account.Gwins < 0)
+                account.Gwins = 0;
+            UserAccounts.SaveAccounts();
+        }
+
+        public static void AdjustGLosts(SocketGuildUser user, int amount)
+        {
+            var account = UserAccounts.GetAccount(user);
+            account.Glost += amount;
+            if (account.Glost < 0)
+                account.Glost = 0;
+            UserAccounts.SaveAccounts();
+        }
+
         // Display how many ComicBooks a user has
         public static async Task DisplayComicBooks(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
         {
             await Utilities.SendEmbed(channel, user.Nickname ?? user.Username, $"{UserAccounts.GetAccount(user).ComicBooks.ToString("#,##0")} Comic Books", Colours.Blue, "", icon);
         }
 
-     
+        public static async Task DisplayGambleWins(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
+        {
+             int total = UserAccounts.GetAccount(user).Glost + UserAccounts.GetAccount(user).Gwins;
+             int wins = UserAccounts.GetAccount(user).Gwins;
+             //decimal percentage = wins / total * 100;
+            // await context.Channel.SendMessageAsync(percentage.ToString("0.##%"));
+            decimal value = (decimal)(((double)wins / total) * 100);
+            decimal percentage = Convert.ToInt32(Math.Round(value, 2));
+             await Utilities.SendEmbed(channel, user.Nickname ?? user.Username, $"{UserAccounts.GetAccount(user).Gwins.ToString("#,##0")} Gamble Wins\n{UserAccounts.GetAccount(user).Glost.ToString("#,##0")} Gamble Losts\nYou have won {UserAccounts.GetAccount(user).ComicsWonFromG.ToString("#,##0")} comics from gambling\nYou have lost {UserAccounts.GetAccount(user).ComicsLostFromG.ToString("#,##0")} comics from gambling\nOn average you have a win rate of {percentage.ToString("#.##")}%", Colours.Blue, "", context.User.GetAvatarUrl());
+
+        }
 
         #region Pickpocket Related
         private static List<PickPocketUser> PickPocketHistory = new List<PickPocketUser>();
@@ -150,7 +197,7 @@ namespace TBBTDiscordBot.Handlers
                     if (UserAccounts.GetAccount(context.Guild.Users.ElementAt(userIndex)).ComicBooks == coinList[coinListIndex] && !PeopleOnLB.Contains(context.Guild.Users.ElementAt(userIndex)))
                     {
                         string name = context.Guild.Users.ElementAt(userIndex).Nickname ?? context.Guild.Users.ElementAt(userIndex).Username;
-                        description.AppendLine($"`{coinListIndex + 1}.` **{name}**, `{coinList[coinListIndex]} Comic Books");
+                        description.AppendLine($"{coinListIndex + 1}. **{name}**, `{coinList[coinListIndex]} Comic Books`");
                         PeopleOnLB.Add(context.Guild.Users.ElementAt(userIndex));
                         break;
                     }

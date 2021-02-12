@@ -41,6 +41,10 @@ namespace TBBTDiscordBot.Handlers.DataHandling
             {
                 UserID = id,
                 ComicBooks = 0,
+                Gwins = 0,
+                Glost = 0,
+                ComicsLostFromG = 0,
+                ComicsWonFromG = 0
             };
             accounts.Add(newAccount);
             SaveAccounts();

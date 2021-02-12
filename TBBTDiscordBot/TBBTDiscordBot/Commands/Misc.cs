@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using TBBTDiscordBot.Handlers;
 using Discord.WebSocket;
+using System;
+
 
 namespace TBBTDiscordBot.Commands
 {
     [RequireContext(ContextType.Guild)]
     public class Misc : InteractiveBase
     {
+        public static IDictionary<string, DateTimeOffset> timeList = new Dictionary<string, DateTimeOffset>();
 
         [Command("icon")]
         public async Task UploadIcon() => await Context.Channel.SendMessageAsync(Context.Guild.IconUrl);
@@ -36,9 +39,8 @@ namespace TBBTDiscordBot.Commands
         public async Task SaySomething([Remainder]string msg)
         {
             await Context.Message.DeleteAsync();
-            var ch = Context.Channel.Id;
             var client = Context.Client;
-            ulong channelID = 784578754785312828; // break room
+            ulong channelID = 784578754785312828; // general
             var c = client.GetChannel(channelID) as SocketTextChannel;
             await c.SendMessageAsync($"{msg}");
             await Context.Channel.SendMessageAsync("Posted!");

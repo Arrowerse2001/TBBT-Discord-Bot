@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TBBTDiscordBot.Handlers.DataHandling;
 
 namespace TBBTDiscordBot.Handlers
 {
@@ -15,6 +16,13 @@ namespace TBBTDiscordBot.Handlers
             "https://tenor.com/view/sheldon-bazinga-punk-sheldon-cooper-the-big-bang-theory-gif-15812147",
             "https://tenor.com/view/idont-care-idc-bazinga-sheldon-cooper-big-bang-theory-gif-5429463",
             ""
+        };
+
+        static public string[] WelcomeMsg =
+        {
+            "What took you so long? Did you get takeout?",
+            "Where have you been! Did you run far run fast away from your roomate?",
+            "Wassup science bitches!"        
         };
 
         static public string[] BazingaEmote =
