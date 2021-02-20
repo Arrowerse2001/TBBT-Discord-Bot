@@ -63,7 +63,7 @@ namespace TBBTDiscordBot.Handlers
             }
             string desc = $"{ArrayHandler.WelcomeMsg[Utilities.GetRandomNumber(0, ArrayHandler.WelcomeMsg.Length)].ToString()}";
 
-            await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+            await arg.Guild.GetTextChannel(784578754785312828).SendMessageAsync("", false, Utilities.Embed("New User", desc + arg.Mention, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
         }
 
 
@@ -84,10 +84,18 @@ namespace TBBTDiscordBot.Handlers
                 await _service.ExecuteAsync(context, argPos, serviceProdiver, MultiMatchHandling.Exception);
 
             string m = msg.Content.ToLower();
-
+            await RankHandler.TryToGiveUserXP(context, msg.Author);
             if (m.Contains("retard"))
                 await msg.DeleteAsync();
 
+            if (s.Channel.Name.StartsWith("@"))
+            {
+                if (s.Author.IsBot) { return; }
+                var client = context.Client;
+                ulong channelID = 784578613269626960;
+                var c = client.GetChannel(channelID) as SocketTextChannel;
+                await c.SendMessageAsync($"New DM from {s.Author.Mention}.\n{s}\nUse ``/DM`` to reply back.");
+            }
 
 
             // mute someone if they say the N word.
@@ -177,6 +185,6 @@ namespace TBBTDiscordBot.Handlers
             }
         }
 
-
+        
     }
 }

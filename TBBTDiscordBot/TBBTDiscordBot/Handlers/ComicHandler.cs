@@ -71,6 +71,46 @@ namespace TBBTDiscordBot.Handlers
             UserAccounts.SaveAccounts();
         }
 
+        public static async Task DisplayCoinsStore(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
+        {
+            await Utilities.SendEmbed(channel, "Comic Book Store", $"1. 5000 - Change the Icon!\n2. 6000 - 3000 XP", Colours.Gold, $"You have {UserAccounts.GetAccount(user).ComicBooks} Comics.", icon);
+        }
+
+        public static async Task BuyIcon(SocketCommandContext context, ISocketMessageChannel channel)
+        {
+            var client = context.Client;
+            ulong channelID = 784578667333419008;
+            var c = client.GetChannel(channelID) as SocketTextChannel;
+            var account = UserAccounts.GetAccount(context.User);
+            if (account.ComicBooks < 5000)
+            {
+                await Utilities.PrintError(context.Channel, "You do not have enough comics for that.");
+                return;
+            }
+            account.ComicBooks -= 5000;
+            UserAccounts.SaveAccounts();
+            await c.SendMessageAsync($"<@470033984575897600> New Item Bought: " + "``" + "Change the Icon`` by: " + $"{context.User.Username}" + $"#{context.User.Discriminator}");
+            await Utilities.SendEmbed(channel, "Comic Book Store", "You have purchased 'Change the Icon'. Please DM <@470033984575897600> with the scene from TBBT and it will be added as soon as possible.", Gold, $"You have {account.ComicBooks} Comics.", icon);
+        }
+
+        public static async Task BuySixThousandXP(SocketCommandContext context, ISocketMessageChannel channel)
+        {
+            var client = context.Client;
+            ulong channelID = 784578667333419008;
+            var c = client.GetChannel(channelID) as SocketTextChannel;
+            var account = UserAccounts.GetAccount(context.User);
+            if (account.ComicBooks < 6000)
+            {
+                await Utilities.PrintError(context.Channel, $"You do not have enough comics for that!");
+                return;
+            }
+            account.ComicBooks -= 6000;
+            UserAccounts.SaveAccounts();
+            await c.SendMessageAsync($"<@470033984575897600> New Item Bought: " + "``" + "3000 Extra XP`` by: " + $"{context.User.Username}" + $"#{context.User.Discriminator}");
+            await Utilities.SendEmbed(channel, "Comic Book Store", "You have purchased '3000 Extra XP'. This will be added as soon as possible, once added a mod will ping you and tell you!", Gold, $"You have {account.ComicBooks} Comics.", icon);
+        }
+
+
         public static void AdjustComicsWonFromG(SocketGuildUser user, int amount)
         {
             var account = UserAccounts.GetAccount(user);
@@ -121,7 +161,7 @@ namespace TBBTDiscordBot.Handlers
             // await context.Channel.SendMessageAsync(percentage.ToString("0.##%"));
             decimal value = (decimal)(((double)wins / total) * 100);
             decimal percentage = Convert.ToInt32(Math.Round(value, 2));
-             await Utilities.SendEmbed(channel, user.Nickname ?? user.Username, $"{UserAccounts.GetAccount(user).Gwins.ToString("#,##0")} Gamble Wins\n{UserAccounts.GetAccount(user).Glost.ToString("#,##0")} Gamble Losts\nYou have won {UserAccounts.GetAccount(user).ComicsWonFromG.ToString("#,##0")} comics from gambling\nYou have lost {UserAccounts.GetAccount(user).ComicsLostFromG.ToString("#,##0")} comics from gambling\nOn average you have a win rate of {percentage.ToString("#.##")}%", Colours.Blue, "", context.User.GetAvatarUrl());
+             await Utilities.SendEmbed(channel, $"{user.Nickname ?? user.Username} Gamble Stats", $"Wins: {UserAccounts.GetAccount(user).Gwins.ToString("#,##0")}\nLoses: {UserAccounts.GetAccount(user).Glost.ToString("#,##0")}\nComics Won: {UserAccounts.GetAccount(user).ComicsWonFromG.ToString("#,##0")}\nComics Lost: {UserAccounts.GetAccount(user).ComicsLostFromG.ToString("#,##0")}\nAverage Win Rate: {percentage.ToString("#.##")}%", Colours.Blue, "", context.User.GetAvatarUrl());
 
         }
 

@@ -11,5 +11,7 @@
         public int ComicsWonFromG { get; set; }
         public int ComicsLostFromG { get; set; }
 
+        public int xp { get; set; }
+        public uint level { get; set; }
     }
 }

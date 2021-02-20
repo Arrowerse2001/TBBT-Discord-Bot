@@ -33,6 +33,12 @@ namespace TBBTDiscordBot.Commands
             await Context.Channel.SendMessageAsync($"Spawned {user.Mention} {amount} comics.");
         }
 
+        [Command("store buy 1")]
+        public async Task StoreBuyOne() => await ComicBooksHandler.BuyIcon(Context, Context.Channel);
+
+        [Command("store buy 2")]
+        public async Task StoreBuyTwo() => await ComicBooksHandler.BuySixThousandXP(Context, Context.Channel);
+
         [Command("gamble")]
         [Summary("Take a risk to increase your comics but you may lose them!")]
         public async Task GambleComics(int amount)
@@ -126,5 +132,7 @@ namespace TBBTDiscordBot.Commands
         {
             await ComicBooksHandler.DisplayGambleWins(Context, (SocketGuildUser)Context.User, Context.Channel);
         }
+
+
     }
 }

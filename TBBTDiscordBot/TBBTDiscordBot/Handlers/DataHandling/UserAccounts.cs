@@ -44,7 +44,9 @@ namespace TBBTDiscordBot.Handlers.DataHandling
                 Gwins = 0,
                 Glost = 0,
                 ComicsLostFromG = 0,
-                ComicsWonFromG = 0
+                ComicsWonFromG = 0,
+                xp = 0,
+                level = 0
             };
             accounts.Add(newAccount);
             SaveAccounts();

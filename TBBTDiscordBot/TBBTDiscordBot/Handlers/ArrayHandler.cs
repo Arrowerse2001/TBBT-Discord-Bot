@@ -38,12 +38,10 @@ namespace TBBTDiscordBot.Handlers
             "Almost killing Penny",
             "Destroying a toaster",
             "Cutting into a magic 8 ball",
-            "Breaking 4A's Door"
+            "Breaking 4A's Door",
+            "Running from the Kripke Krippler"
         };
 
-        static public string[] TBBTMemes =
-        {
-
-        };
+       
     }
 }
