@@ -18,6 +18,7 @@ namespace TBBTDiscordBot.Commands
     [RequireContext(ContextType.Guild)]
     public class Misc : InteractiveBase
     {
+      
         public static IDictionary<string, DateTimeOffset> timeList = new Dictionary<string, DateTimeOffset>();
 
         [Command("icon")]

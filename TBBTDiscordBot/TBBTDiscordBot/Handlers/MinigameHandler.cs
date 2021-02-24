@@ -14,7 +14,7 @@ namespace TBBTDiscordBot.Handlers
     {
 
         public static RockPaperScissors RPS = new RockPaperScissors();
-
+        public static CardsAgainstHumanity CAH = new CardsAgainstHumanity();
 
 
         // Display available minigames

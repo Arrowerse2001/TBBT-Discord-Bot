@@ -178,10 +178,14 @@ namespace TBBTDiscordBot.Handlers
 
             IEmote e = reaction.Emote;
 
-            if (message.Channel.Id == 784578667333419008 && e.Name == "NobelPrize")
+            if (message.Channel.Id == 728918609027661828 && e.Name == "➕")
             {
-                await message.Channel.SendMessageAsync($"Reaction added");
-                await originChannel.SendMessageAsync($"Reaction Added.");
+               await originChannel.SendMessageAsync($"{Context.User.Mention} has joined!");
+            }
+
+            if (message.Channel.Id == 728918609027661828 && e.Name == "➖")
+            {
+                await originChannel.SendMessageAsync($"{Context.User.Mention} has left!");
             }
         }
 

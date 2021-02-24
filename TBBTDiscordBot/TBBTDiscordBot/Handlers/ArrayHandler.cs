@@ -6,6 +6,51 @@ namespace TBBTDiscordBot.Handlers
 {
     static class ArrayHandler
     {
+        static public string[] QuestionCards =
+        {
+            "If I had a gun with two bullets and I was in a room with ﹏﹏﹏﹏﹏ and Toby, I would shoot Toby twice.",
+            "Hey Mr. Scott, whatcha gonna do, whatcha gonna do? ﹏﹏﹏﹏﹏.",
+            "What makes Dwight, Dwight? ﹏﹏﹏﹏﹏",
+            "The dundie for funniest in the office goes to ﹏﹏﹏﹏﹏.",
+            "What is the most romantic thing in The Office? ﹏﹏﹏﹏﹏.",
+            "Dwight, you ﹏﹏﹏﹏﹏!",
+            "﹏﹏﹏﹏﹏. That's what she said!",
+            "Who should've replaced Michael as regional manager? ﹏﹏﹏﹏﹏.",
+            "﹏﹏﹏﹏﹏ is not a joke Jim! Millions of families suffer every year!",
+            "﹏﹏﹏﹏﹏. Nope. Don't like that.",
+            "﹏﹏﹏﹏﹏. How the turntables...",
+            "Make ﹏﹏﹏﹏﹏ first, make sales second, make love third. In no particular order.",
+            "You miss 100 percent of the ﹏﹏﹏﹏﹏ you don't take. - Wayne Gretzky - Michael Scott",
+            "The party planning committee decided on a ﹏﹏﹏﹏﹏ themed Christmas party this year.",
+            "What is the most romantic thing in The Office? ﹏﹏﹏﹏﹏."
+        };
+
+        static public string[] PlayerCards =
+        {
+            "When a girl that you think likes you is being nice because they think you're retarded",
+            "The Andy Bernard school of anger management",
+            "Wedding: the fusing of two metals with a hot torch. - Webster's Dictionary",
+            "Jim's proposal to Pam",
+            "Pam's face when Jim asks her out for the first time",
+            "Running over a co-worker with your car",
+            "The Sabre Pyramid Tablet",
+            "David Wallace",
+            "DID I STUTTER?!",
+            "Perfectenschlag. Defined as when a man's life comes together perfectly, or perfect pork anus",
+            "Michael Scott",
+            "Threat Level: Midnight",
+            "Mega desk",
+            "Jan's daughter Assturd",
+            "Ignorant slut",
+            "A well-timed, 'That's what she said'.",
+            "Beets",
+            "Declaring yourself 'Hay King' to the shock of the crowd",
+            "Soup Snakes",
+            "Kicking your date in the face at a wedding",
+            "Professor Copperfield's miracle legumes",
+            "Michael Klump"
+        };
+
         static public string[] Bazinga =
         {
             "https://giphy.com/gifs/bazinga-YWZPFFCblEqsw",

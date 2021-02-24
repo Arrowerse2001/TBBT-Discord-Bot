@@ -106,6 +106,7 @@
     <Compile Include="Handlers\EventHandler.cs" />
     <Compile Include="Handlers\MinigameHandler.cs" />
     <Compile Include="Handlers\RankHandler.cs" />
+    <Compile Include="Minigames\CardsAgainstHumanity.cs" />
     <Compile Include="Minigames\RockPaperScissors.cs" />
     <Compile Include="Preconditions\RequireRole.cs" />
     <Compile Include="Program.cs" />
